@@ -1,0 +1,20 @@
+<script>
+ $(function() {
+     dispatcher = new WebSocketRails('<%= request.host%>:<%= request.port%>/websocket', true);
+     var channel = dispatcher.subscribe('update_channel');
+     channel.bind('update_message', function(data) {
+    $('#lastUpdate').append('<li> update message: '+data+'</li>');
+    console.log('update message:'+ data);
+    });
+
+    var channel2 = dispatcher.subscribe('worker_channel');
+    channel2.bind('worker_message', function(data) {
+    $('#lastUpdate').append('<li> worker message:'+data+'</li>');
+       console.log('worker message:' + data);
+    });
+ });
+</script>
+
+<p>Last update received from server:</p>
+<ul id="lastUpdate">
+</ul>
